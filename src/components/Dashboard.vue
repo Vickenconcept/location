@@ -13,7 +13,7 @@ const location = ref(locations.find(loc => loc.id == locationId));
 </script>
 
 <template>
-    <div>
+    <div class="">
         <div
             class="relative flex border-neutral-300 bg-neutral-50 p-4 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 border-b">
             <div class="mx-auto flex flex-wrap items-center gap-2 px-6">
@@ -30,16 +30,19 @@ const location = ref(locations.find(loc => loc.id == locationId));
             </button>
         </div>
 
-        <Breadcrumb />
+
+        <div class="px-5">
+            <Breadcrumb />
+        </div>
 
 
-        <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-5">
             <article v-for="location in locations" :key="location.id"
-                class="group flex rounded-md max-w-sm flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 ">
+                class="group flex rounded-md  flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 ">
                 <div class="h-44 md:h-64 overflow-hidden">
-                    <img src="https://penguinui.s3.amazonaws.com/component-assets/card-img-2.webp"
-                        class="object-cover transition duration-700 ease-out group-hover:scale-105"
-                        alt="view of a coastal Mediterranean village on a hillside, with small boats in the water." />
+                    <img class="object-cover transition duration-700 ease-out group-hover:scale-105"
+                        :src="location.imageUrl" :alt="location.title" />
                 </div>
                 <div class="flex flex-col gap-4 p-6">
                     <div class="flex items-center gap-1 font-medium">
