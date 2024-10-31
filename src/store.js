@@ -1,5 +1,6 @@
 // src/store.js
 import { createStore } from 'vuex';
+import axios from 'axios';
 
 // src/store.js
 export default createStore({
@@ -29,38 +30,39 @@ export default createStore({
             state.token = '';
             state.isAuthenticated = false;
             localStorage.removeItem('token');
-            // localStorage.removeItem('userInStorage');
+            localStorage.removeItem('userInStorage');
         },
     },
     actions: {
-        register({ commit }, credentials) {
+        async register({ commit }, credentials) {
 
             if (credentials.name != '' && credentials.email != '' && credentials.password != '') {
 
-                const User = { name: credentials.name, email: credentials.email, password: credentials.password };
+                // const User = { name: credentials.name, email: credentials.email, password: credentials.password };
+                // commit('SET_USER', User);
 
-                commit('SET_USER', User);
+                const response = await axios.post('http://localhost:3000/api/auth/register', credentials);
+                // commit('SET_USER', response.data);
+
+
             } else {
                 throw new Error('Incomplete credentials');
             }
         },
-        login({ commit }, credentials) {
+        async login({ commit }, credentials) {
 
-            const userInStorage = localStorage.getItem('userInStorage');
-            const validUser = JSON.parse(userInStorage);
+            const response = await axios.post('http://localhost:3000/api/auth/login', credentials);
+            if (response.data.status) {
+                console.log(response.data);
+                commit('SET_USER', response.data.user);
+                commit('SET_TOKEN', response.data.token);
 
-            if (userInStorage) {
-                if (credentials.email === validUser.email && credentials.password === validUser.password) {
-                    const mockToken = 'dummyToken123';
-
-                    commit('SET_USER', validUser);
-                    commit('SET_TOKEN', mockToken);
-                } else {
-                    throw new Error('Invalid credentials');
-                }
             } else {
-                throw new Error('User not found!. Please register');
+                throw new Error('Invalid credentials');
             }
+            // } else {
+            //     throw new Error('User not found!. Please register');
+            // }
         },
         resetPassword({ commit }, credentials) {
 

@@ -26,6 +26,7 @@ const routes = [
         path: '/location/:slug',
         name: 'LocationDetails',
         component: () => import('./components/LocationDetails.vue'),
+        meta: { requiresAuth: true },
         props: true,
     },
 ];
